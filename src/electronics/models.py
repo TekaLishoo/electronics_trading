@@ -50,10 +50,16 @@ class NetworkObject(CommonPart):
     )
     location_street = models.CharField(max_length=250)
     location_house = models.PositiveIntegerField()
-    supplier = models.ForeignKey("self", on_delete=models.SET_NULL, null=True, blank=True)
+    supplier = models.ForeignKey(
+        "self", on_delete=models.SET_NULL, null=True, blank=True
+    )
     debt = MoneyField(decimal_places=2, max_digits=8, default_currency="BYN")
 
     def save(self, *args, **kwargs):
+        """
+        Checking the right order of objects in network.
+        """
+
         if self.supplier is None:
             super(NetworkObject, self).save(*args, **kwargs)
         elif self.type > self.supplier.type:
