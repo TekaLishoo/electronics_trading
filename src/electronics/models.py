@@ -42,7 +42,7 @@ class NetworkObject(CommonPart):
     location_country = models.ForeignKey(Country, on_delete=models.CASCADE)
     location_city = ChainedForeignKey(
         City,
-        chained_field="country",
+        chained_field="location_country",
         chained_model_field="country",
         show_all=False,
         auto_choose=True,
@@ -50,17 +50,23 @@ class NetworkObject(CommonPart):
     )
     location_street = models.CharField(max_length=250)
     location_house = models.PositiveIntegerField()
-    supplier = models.ForeignKey("self", on_delete=models.SET_NULL, null=True)
+    supplier = models.ForeignKey("self", on_delete=models.SET_NULL, null=True, blank=True)
     debt = MoneyField(decimal_places=2, max_digits=8, default_currency="BYN")
 
     def save(self, *args, **kwargs):
-        if self.type > self.supplier.type or self.type is None:
+        if self.supplier is None:
+            super(NetworkObject, self).save(*args, **kwargs)
+        elif self.type > self.supplier.type:
             super(NetworkObject, self).save(*args, **kwargs)
         else:
-            raise ValueError("Invalid supplier: please, keep the right order of suppliers.")
+            raise ValueError(
+                "Invalid supplier: please, keep the right order of suppliers."
+            )
 
     def __str__(self):
-        return f"{self.type}: {self.name}, {self.location_city}. Debt: {self.debt.amount}"
+        return (
+            f"{self.type}: {self.name}, {self.location_city}. Debt: {self.debt.amount}"
+        )
 
 
 class PresentProducts(models.Model):

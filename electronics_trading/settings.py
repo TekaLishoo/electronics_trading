@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "smart_selects",
     "django_countries",
-    'djmoney',
+    "djmoney",
     "src.electronics",
 ]
 
@@ -136,4 +136,4 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-JQUERY_URL = True
+USE_DJANGO_JQUERY = True
