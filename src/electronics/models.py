@@ -13,6 +13,9 @@ class Country(models.Model):
     def __str__(self):
         return self.country.name
 
+    class Meta:
+        verbose_name_plural = 'Countries'
+
 
 class City(models.Model):
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
@@ -20,6 +23,9 @@ class City(models.Model):
 
     def __str__(self):
         return f"{self.city}, {self.country}"
+
+    class Meta:
+        verbose_name_plural = 'Cities'
 
 
 class Product(CommonPart):
@@ -82,10 +88,13 @@ class PresentProducts(models.Model):
     """
 
     object = models.ForeignKey(NetworkObject, on_delete=models.CASCADE)
-    products = models.ManyToManyField(Product)
+    products = models.ManyToManyField(Product, blank=True)
 
     def __str__(self):
         return f'{self.object.name}: {", ".join(self.products.all().values_list("name", flat=True))}'
+
+    class Meta:
+        verbose_name_plural = 'Present Products'
 
 
 class ObjectEmployees(models.Model):
@@ -95,7 +104,10 @@ class ObjectEmployees(models.Model):
     """
 
     object = models.ForeignKey(NetworkObject, on_delete=models.CASCADE)
-    employees = models.ManyToManyField(User)
+    employees = models.ManyToManyField(User, blank=True)
 
     def __str__(self):
         return f'{self.object.name}: {", ".join(self.employees.all().values_list("last_name", flat=True))}'
+
+    class Meta:
+        verbose_name_plural = 'Object Employees'
