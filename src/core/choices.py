@@ -7,12 +7,12 @@ TYPE_OF_OBJECT = (
 )
 
 TYPE_OF_PRODUCT = (
-    ("TV", "television"),
-    ("Phone", "phone"),
-    ("Tablet", "tablet"),
-    ("Notebook", "notebook"),
-    ("Headphones", "headphones"),
-    ("Camera", "camera"),
-    ("Refrigerator", "refrigerator"),
-    ("Printer", "printer"),
+    ("television", "TV"),
+    ("phone", "Phone"),
+    ("tablet", "Tablet"),
+    ("notebook", "Notebook"),
+    ("headphones", "Headphones"),
+    ("camera", "Camera"),
+    ("refrigerator", "Refrigerator"),
+    ("printer", "Printer"),
 )
