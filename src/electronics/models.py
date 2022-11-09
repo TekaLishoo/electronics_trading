@@ -53,6 +53,7 @@ class NetworkObject(CommonPart):
         show_all=False,
         auto_choose=True,
         sort=True,
+        null=True,
     )
     location_street = models.CharField(max_length=250)
     location_house = models.PositiveIntegerField()

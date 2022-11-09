@@ -12,6 +12,9 @@ black = "*"
 django-smart-selects = "*"
 django-countries = "*"
 django-money = "*"
+pytest = "*"
+faker = "*"
+pytest-django = "*"
 
 [dev-packages]
 
