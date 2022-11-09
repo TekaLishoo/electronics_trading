@@ -9,6 +9,12 @@ djangorestframework = "*"
 psycopg2-binary = "*"
 django-environ = "*"
 black = "*"
+django-smart-selects = "*"
+django-countries = "*"
+django-money = "*"
+pytest = "*"
+faker = "*"
+pytest-django = "*"
 
 [dev-packages]
 
