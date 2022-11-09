@@ -18,6 +18,11 @@ admin.site.register(PresentProducts)
 admin.site.register(ObjectEmployees)
 
 
+@admin.action(description="Clear debt")
+def clear_debt(modeladmin, request, queryset):
+    queryset.update(debt=0)
+
+
 class PresentProductsInline(admin.StackedInline):
     model = PresentProducts
 
@@ -29,18 +34,32 @@ class ObjectEmployeesInline(admin.StackedInline):
 @admin.register(NetworkObject)
 class NetworkObjectAdmin(admin.ModelAdmin):
     inlines = [PresentProductsInline, ObjectEmployeesInline]
-    list_display = ['type', 'name', 'location_city', 'debt', 'get_supplier', ]
-    list_filter = ['location_city', ]
-    list_display_links = ['get_supplier', ]
+    list_display = [
+        "type",
+        "name",
+        "location_city",
+        "debt",
+        "get_supplier",
+    ]
+    list_filter = [
+        "location_city",
+    ]
+    list_display_links = [
+        "get_supplier",
+    ]
     list_select_related = True
+    actions = [
+        clear_debt,
+    ]
 
     def get_supplier(self, obj):
         if obj.supplier is None:
-            return 'No supplier'
+            return "No supplier"
         else:
-            url = reverse('admin:electronics_networkobject_change', args=(obj.supplier.id,))
+            url = reverse(
+                "admin:electronics_networkobject_change", args=(obj.supplier.id,)
+            )
             return mark_safe("<a href='%s'>'%s'</a>" % (url, obj.supplier.name))
 
     get_supplier.allow_tags = True
-    get_supplier.short_description = 'Supplier'
-
+    get_supplier.short_description = "Supplier"

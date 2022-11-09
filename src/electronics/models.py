@@ -14,7 +14,7 @@ class Country(models.Model):
         return self.country.name
 
     class Meta:
-        verbose_name_plural = 'Countries'
+        verbose_name_plural = "Countries"
 
 
 class City(models.Model):
@@ -25,7 +25,7 @@ class City(models.Model):
         return f"{self.city}, {self.country}"
 
     class Meta:
-        verbose_name_plural = 'Cities'
+        verbose_name_plural = "Cities"
 
 
 class Product(CommonPart):
@@ -94,7 +94,7 @@ class PresentProducts(models.Model):
         return f'{self.object.name}: {", ".join(self.products.all().values_list("name", flat=True))}'
 
     class Meta:
-        verbose_name_plural = 'Present Products'
+        verbose_name_plural = "Present Products"
 
 
 class ObjectEmployees(models.Model):
@@ -110,4 +110,4 @@ class ObjectEmployees(models.Model):
         return f'{self.object.name}: {", ".join(self.employees.all().values_list("last_name", flat=True))}'
 
     class Meta:
-        verbose_name_plural = 'Object Employees'
+        verbose_name_plural = "Object Employees"
