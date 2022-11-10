@@ -17,6 +17,10 @@ faker = "*"
 pytest-django = "*"
 django-rest-swagger = "*"
 django-filter = "*"
+celery = "*"
+redis = "*"
+django-celery-beat = "*"
+environ = "*"
 
 [dev-packages]
 

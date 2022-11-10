@@ -3,7 +3,6 @@ from src.electronics.models import NetworkObject, Country, City, PresentProducts
 from src.core.choices import TYPE_OF_OBJECT
 from random import choice, randint
 from faker import Faker
-from datetime import date, timedelta
 
 
 class Command(BaseCommand):
