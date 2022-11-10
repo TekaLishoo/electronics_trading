@@ -10,6 +10,7 @@ from src.electronics.serializers import (
 from src.electronics.filters import NetworkObjectFilter
 from django_filters import rest_framework as filters
 from rest_framework.filters import OrderingFilter, SearchFilter
+from src.electronics.permissions import IsActive
 
 
 class NetworkObjectsViewSet(
@@ -26,6 +27,7 @@ class NetworkObjectsViewSet(
     queryset = NetworkObject.objects.all()
     filter_backends = (filters.DjangoFilterBackend, OrderingFilter, SearchFilter)
     filterset_class = NetworkObjectFilter
+    permission_classes = (IsActive,)
 
     def get_serializer_class(self):
         if self.action == "update":
@@ -45,6 +47,7 @@ class NetworkObjectsBigDebtViewSet(
     average_debt = NetworkObject.objects.all().aggregate(Avg("debt"))["debt__avg"]
     queryset = NetworkObject.objects.filter(debt__gt=average_debt)
     serializer_class = NetworkObjectSerializer
+    permission_classes = (IsActive,)
 
 
 class ProductsViewSet(
@@ -60,3 +63,4 @@ class ProductsViewSet(
 
     queryset = Product.objects.all()
     serializer_class = ProductsSerializer
+    permission_classes = (IsActive,)
