@@ -46,8 +46,8 @@ INSTALLED_APPS = [
     "smart_selects",
     "django_countries",
     "djmoney",
-    'rest_framework_swagger',
-    'django_filters',
+    "rest_framework_swagger",
+    "django_filters",
     "src.electronics",
 ]
 

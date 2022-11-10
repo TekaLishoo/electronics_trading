@@ -88,7 +88,9 @@ class PresentProducts(models.Model):
     in a particular object of trading network.
     """
 
-    object = models.ForeignKey(NetworkObject, on_delete=models.CASCADE)
+    object = models.ForeignKey(
+        NetworkObject, on_delete=models.CASCADE, related_name="present_products"
+    )
     products = models.ManyToManyField(Product, blank=True)
 
     def __str__(self):
