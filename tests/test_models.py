@@ -13,9 +13,7 @@ def get_random_word(max_size):
 
 
 def random_country():
-    return Country.objects.create(
-        country=choice(list(countries))
-    )
+    return Country.objects.create(country=choice(list(countries)))
 
 
 @pytest.mark.django_db
@@ -28,14 +26,14 @@ def test_save_networkobject():
         object_factory = NetworkObject(
             type=i,
             name=get_random_word(50),
-            mail='test@maiil.ru',
+            mail="test@maiil.ru",
             location_country=random_country(),
             location_street=get_random_word(250),
             location_house=randrange(1, 100),
             debt=randrange(0, 100),
         )
         if i != 0:
-            object_factory.supplier = NetworkObject.objects.filter(type=i-1)[0]
+            object_factory.supplier = NetworkObject.objects.filter(type=i - 1)[0]
         object_factory.save()
     assert NetworkObject.objects.all().count() == 3
 
@@ -43,7 +41,7 @@ def test_save_networkobject():
         object_factory_wrong = NetworkObject(
             type=0,
             name=get_random_word(50),
-            mail='test@maiil.ru',
+            mail="test@maiil.ru",
             location_country=random_country(),
             location_street=get_random_word(250),
             location_house=randrange(1, 100),
@@ -51,5 +49,3 @@ def test_save_networkobject():
             debt=randrange(0, 100),
         )
         object_factory_wrong.save()
-
-

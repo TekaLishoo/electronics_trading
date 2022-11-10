@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     "smart_selects",
     "django_countries",
     "djmoney",
+    "rest_framework_swagger",
+    "django_filters",
     "src.electronics",
 ]
 
@@ -113,6 +115,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
+    # 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
