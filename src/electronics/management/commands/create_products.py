@@ -2,7 +2,6 @@ from django.core.management.base import BaseCommand
 from src.electronics.models import Product
 from src.core.choices import TYPE_OF_PRODUCT
 from random import choice, randint
-from faker import Faker
 from datetime import date, timedelta
 
 
