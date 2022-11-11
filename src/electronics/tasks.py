@@ -1,6 +1,8 @@
 from celery import shared_task
 from src.electronics.models import NetworkObject
-from random import randint
+from random import choice
+from djmoney.money import Money
+from decimal import Decimal
 
 
 @shared_task
@@ -13,6 +15,7 @@ def increase_debt():
     objects = NetworkObject.objects.all()
 
     for obj in objects:
-        obj.debt += randint(5, 500)
+        obj.debt = Money(
+            obj.debt.amount + Decimal(choice(range(5, 500))), "BYN"
+        )
         obj.save()
-

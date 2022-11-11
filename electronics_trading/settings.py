@@ -31,7 +31,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -155,6 +155,6 @@ CELERY_TIMEZONE = "Europe/Minsk"
 CELERY_BEAT_SCHEDULE = {
     "increase_debt": {
         "task": "src.electronics.tasks.increase_debt",
-        "schedule": crontab(minute="*/1"),
+        "schedule": crontab(hour="*/3"),
     },
 }
