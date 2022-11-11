@@ -5,7 +5,7 @@ from rest_framework.renderers import CoreJSONRenderer
 from rest_framework.schemas import get_schema_view
 from src.electronics.views import (
     NetworkObjectsViewSet,
-    NetworkObjectsBigDebtViewSet,
+    # NetworkObjectsBigDebtViewSet,
     ProductsViewSet,
 )
 
@@ -15,7 +15,7 @@ schema_view = get_schema_view(
 
 router = routers.SimpleRouter()
 router.register(r"networkobjects", NetworkObjectsViewSet)
-router.register(r"networkobjects_bigdebt", NetworkObjectsBigDebtViewSet)
+# router.register(r"networkobjects_bigdebt", NetworkObjectsBigDebtViewSet)
 router.register(r"products", ProductsViewSet)
 
 urlpatterns = [

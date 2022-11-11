@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import environ
+from celery.schedules import crontab
 
 
 env = environ.Env()
@@ -30,7 +31,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     "djmoney",
     "rest_framework_swagger",
     "django_filters",
+    'django_celery_beat',
     "src.electronics",
 ]
 
@@ -143,3 +145,20 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 USE_DJANGO_JQUERY = True
+
+CELERY_BROKER_URL = env("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND")
+
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TIMEZONE = "Europe/Minsk"
+
+CELERY_BEAT_SCHEDULE = {
+    "increase_debt": {
+        "task": "src.electronics.tasks.increase_debt",
+        "schedule": crontab(hour="*/3"),
+    },
+    "decrease_debt": {
+        "task": "src.electronics.tasks.decrease_debt",
+        "schedule": crontab(hour=6, minute=30),
+    },
+}

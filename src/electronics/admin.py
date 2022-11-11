@@ -19,8 +19,12 @@ admin.site.register(ObjectEmployees)
 
 
 @admin.action(description="Clear debt")
-def clear_debt(modeladmin, request, queryset):
-    queryset.update(debt=0)
+async def clear_debt(modeladmin, request, queryset):
+    if queryset.count() <= 20:
+        queryset.update(debt=0)
+    else:
+        async for obj in queryset:
+            obj.debt.amount = 0
 
 
 class PresentProductsInline(admin.StackedInline):

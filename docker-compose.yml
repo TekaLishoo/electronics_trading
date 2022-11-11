@@ -1,0 +1,49 @@
+version: "3"
+services:
+
+  redis:
+    image: redis:alpine
+
+  postgres:
+    image: postgres:13.3
+    env_file:
+      - electronics_trading/.env
+    ports:
+      - 5432:5432
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    image: django
+    command: >
+      sh -c "python3 manage.py migrate &&
+      python3 manage.py runserver 0.0.0.0:8000"
+    ports:
+      - 8000:8000
+    depends_on:
+      - postgres
+
+  celery:
+    restart: always
+    build: .
+    env_file:
+      - electronics_trading/.env
+    command: celery -A electronics_trading worker -l INFO
+    volumes:
+      - .:/usr/local/src/webapp/src/
+    depends_on:
+      - postgres
+      - redis
+      - app
+
+  celery-beat:
+    build: .
+    command: celery -A electronics_trading beat -l INFO
+    volumes:
+      - .:/usr/local/src/webapp/src/
+    depends_on:
+      - celery
+
+volumes:
+  pg-data:

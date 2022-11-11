@@ -1,5 +1,4 @@
-from django.db.models import Avg
-from django.shortcuts import render
+from django.db.models import Avg, DecimalField, F
 from rest_framework import mixins, viewsets
 from src.electronics.models import NetworkObject, Product
 from src.electronics.serializers import (
@@ -44,8 +43,8 @@ class NetworkObjectsBigDebtViewSet(
     with a debt grater then an average debt.
     """
 
-    average_debt = NetworkObject.objects.all().aggregate(Avg("debt"))["debt__avg"]
-    queryset = NetworkObject.objects.filter(debt__gt=average_debt)
+    queryset = NetworkObject.objects.annotate(average_debt=Avg("debt", output_field=DecimalField())).filter(
+        debt__gt=F("average_debt"))
     serializer_class = NetworkObjectSerializer
     permission_classes = (IsActive,)
 
