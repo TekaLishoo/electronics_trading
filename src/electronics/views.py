@@ -10,6 +10,9 @@ from src.electronics.filters import NetworkObjectFilter
 from django_filters import rest_framework as filters
 from rest_framework.filters import OrderingFilter, SearchFilter
 from src.electronics.permissions import IsActive
+from django.http import HttpResponse
+from src.electronics.tasks import send_mail_func
+from rest_framework.decorators import action
 
 
 class NetworkObjectsViewSet(
@@ -32,6 +35,18 @@ class NetworkObjectsViewSet(
         if self.action == "update":
             return NetworkObjectUpdateSerializer
         return NetworkObjectSerializer
+
+    @action(methods=["get"], detail=True)
+    def qr_code(self, request, pk=None):
+        """
+        <api/networkobjects/{pk}/qr_code/>
+        Receive a mail with QR code
+        with a contacts of particular network object.
+        """
+
+        contacts = NetworkObject.objects.filter(id=pk).values_list("mail", flat=True)[0]
+        send_mail_func.delay(request.user.email, contacts)
+        return HttpResponse("Sent QR Code in Email Successfully...Check your mail please")
 
 
 class NetworkObjectsBigDebtViewSet(
@@ -63,3 +78,5 @@ class ProductsViewSet(
     queryset = Product.objects.all()
     serializer_class = ProductsSerializer
     permission_classes = (IsActive,)
+
+

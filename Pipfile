@@ -21,6 +21,8 @@ celery = "*"
 redis = "*"
 django-celery-beat = "*"
 environ = "*"
+qrcode = "*"
+pillow = "*"
 
 [dev-packages]
 
