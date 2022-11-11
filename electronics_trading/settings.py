@@ -157,4 +157,8 @@ CELERY_BEAT_SCHEDULE = {
         "task": "src.electronics.tasks.increase_debt",
         "schedule": crontab(hour="*/3"),
     },
+    "decrease_debt": {
+        "task": "src.electronics.tasks.decrease_debt",
+        "schedule": crontab(hour=6, minute=30),
+    },
 }
