@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "rest_framework_swagger",
     "django_filters",
     "django_celery_beat",
+    "rest_framework_simplejwt",
     "src.electronics",
 ]
 
@@ -119,7 +120,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
-    # 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
 }
 
 # Internationalization

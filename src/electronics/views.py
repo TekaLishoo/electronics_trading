@@ -31,6 +31,13 @@ class NetworkObjectsViewSet(
     filterset_class = NetworkObjectFilter
     permission_classes = (IsActive,)
 
+    def get_queryset(self):
+        return (
+            NetworkObject.objects.all()
+            .prefetch_related("employees")
+            .filter(is_active=True, employees__employees=self.request.user)
+        )
+
     def get_serializer_class(self):
         if self.action == "update":
             return NetworkObjectUpdateSerializer

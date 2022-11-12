@@ -8,6 +8,8 @@ from src.electronics.views import (
     NetworkObjectsBigDebtViewSet,
     ProductsViewSet,
 )
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 
 schema_view = get_schema_view(
     title="A Different API", renderer_classes=[CoreJSONRenderer]
@@ -23,4 +25,7 @@ urlpatterns = [
     path("chaining/", include("smart_selects.urls")),
     path("api/", include(router.urls)),
     path("swagger/", schema_view),
+    path("api-auth/", include("rest_framework.urls")),
+    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]
