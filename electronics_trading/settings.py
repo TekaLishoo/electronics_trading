@@ -158,7 +158,7 @@ CELERY_TIMEZONE = "Europe/Minsk"
 CELERY_BEAT_SCHEDULE = {
     "increase_debt": {
         "task": "src.electronics.tasks.increase_debt",
-        "schedule": crontab(hour="*/3"),
+        "schedule": crontab(minute=0, hour="*/3"),
     },
     "decrease_debt": {
         "task": "src.electronics.tasks.decrease_debt",

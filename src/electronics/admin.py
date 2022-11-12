@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.safestring import mark_safe
-
+from django.utils.html import format_html
 from src.electronics.models import (
     Country,
     City,
@@ -39,22 +39,29 @@ class ObjectEmployeesInline(admin.StackedInline):
 class NetworkObjectAdmin(admin.ModelAdmin):
     inlines = [PresentProductsInline, ObjectEmployeesInline]
     list_display = [
+        "id",
         "type",
         "name",
         "location_city",
         "debt",
         "get_supplier",
+        'btn_copy_mail',
     ]
     list_filter = [
         "location_city",
     ]
     list_display_links = [
+        "id",
         "get_supplier",
     ]
     list_select_related = True
     actions = [
         clear_debt,
     ]
+    readonly_fields = ['btn_copy_mail', ]
+
+    class Media:
+        js = ("js/copy_link.js",)
 
     def get_supplier(self, obj):
         if obj.supplier is None:
@@ -67,3 +74,10 @@ class NetworkObjectAdmin(admin.ModelAdmin):
 
     get_supplier.allow_tags = True
     get_supplier.short_description = "Supplier"
+
+    def btn_copy_mail(self, obj):
+        return format_html('<a href="#" onclick="copy_link(\'{}\')" class="button" ''id="id_selected">Copy mail</a>',
+                           str(obj.mail))
+
+    btn_copy_mail.allow_tags = True
+    btn_copy_mail.short_description = "Copy mail"
