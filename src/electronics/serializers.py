@@ -5,6 +5,7 @@ from src.electronics.models import (
     ObjectEmployees,
     Product,
 )
+from src.electronics.validators import validate_presentation_date
 
 
 class NetworkObjectSerializer(serializers.ModelSerializer):
@@ -39,6 +40,9 @@ class ProductsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = "__all__"
+        extra_kwargs = {
+            "presentation_data": {"validators": [validate_presentation_date]},
+        }
 
     def get_presented_objects(self, *args, **kwargs):
         return (
@@ -46,6 +50,3 @@ class ProductsSerializer(serializers.ModelSerializer):
             .select_related("object")
             .values_list("object__name", flat=True)
         )
-
-
-#
