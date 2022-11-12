@@ -106,7 +106,9 @@ class ObjectEmployees(models.Model):
     a particular object of trading network.
     """
 
-    object = models.ForeignKey(NetworkObject, on_delete=models.CASCADE, related_name="employees")
+    object = models.ForeignKey(
+        NetworkObject, on_delete=models.CASCADE, related_name="employees"
+    )
     employees = models.ManyToManyField(User, blank=True)
 
     def __str__(self):
