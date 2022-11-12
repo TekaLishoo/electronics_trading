@@ -16,7 +16,9 @@ class Command(BaseCommand):
             product = Product()
 
             product.name = choice(TYPE_OF_PRODUCT)[0]
-            product.model = f'{chr(randint(ord("A"), ord("Z")))}{choice(range(100, 900))}'
+            product.model = (
+                f'{chr(randint(ord("A"), ord("Z")))}{choice(range(100, 900))}'
+            )
             product.presentation_data = date.today() + timedelta(days=randint(1, 20))
 
             product.save()

@@ -21,27 +21,23 @@ def increase_debt():
     objects = NetworkObject.objects.all()
 
     for obj in objects:
-        obj.debt = Money(
-            obj.debt.amount + Decimal(choice(range(5, 500))), "BYN"
-        )
+        obj.debt = Money(obj.debt.amount + Decimal(choice(range(5, 500))), "BYN")
         obj.save()
 
 
 @shared_task
 def decrease_debt():
     """
-        Task runs every day at 6.30.
-        It will decrease a debt of network objects by a random number.
-        """
+    Task runs every day at 6.30.
+    It will decrease a debt of network objects by a random number.
+    """
 
     objects = NetworkObject.objects.all()
 
     for obj in objects:
         amount_to_decrease = choice(range(100, 10000))
         if Decimal(amount_to_decrease) <= obj.debt.amount:
-            obj.debt = Money(
-                obj.debt.amount - Decimal(amount_to_decrease), "BYN"
-            )
+            obj.debt = Money(obj.debt.amount - Decimal(amount_to_decrease), "BYN")
         else:
             obj.debt = Money(Decimal(0), "BYN")
         obj.save()
@@ -59,9 +55,11 @@ def send_mail_func(email, contacts):
         subject=mail_subject,
         body=mail_body,
         from_email=EMAIL_HOST_USER,
-        to=[email, ],
+        to=[
+            email,
+        ],
     )
-    message.mixed_subtype = 'related'
+    message.mixed_subtype = "related"
     message.attach(qr_data(contacts))
 
     message.send(fail_silently=False)
@@ -78,5 +76,5 @@ def qr_data(contacts):
     buff = BytesIO()
     qr_code.save(buff, format="PNG")
     qr_attachment = MIMEImage(buff.getvalue(), _subtype="png")
-    qr_attachment.add_header('Content-ID', '<qr_code>')
+    qr_attachment.add_header("Content-ID", "<qr_code>")
     return qr_attachment

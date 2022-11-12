@@ -24,6 +24,6 @@ def test_update_request(api_client):
     Check update API request of an inactive user.
     """
 
-    url = reverse("networkobject-detail", kwargs={'pk': 2})
+    url = reverse("networkobject-detail", kwargs={"pk": 2})
     response = api_client.post(url, data={"type": 2})
     assert response.status_code == 403

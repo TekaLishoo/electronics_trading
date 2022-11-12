@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     "djmoney",
     "rest_framework_swagger",
     "django_filters",
-    'django_celery_beat',
+    "django_celery_beat",
     "src.electronics",
 ]
 
@@ -169,4 +169,3 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = 587
-

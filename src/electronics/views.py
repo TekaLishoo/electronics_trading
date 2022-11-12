@@ -26,7 +26,7 @@ class NetworkObjectsViewSet(
     Main viewset for objects of network.
     """
 
-    queryset = NetworkObject.objects.all()
+    queryset = NetworkObject.objects.filter(is_active=True)
     filter_backends = (filters.DjangoFilterBackend, OrderingFilter, SearchFilter)
     filterset_class = NetworkObjectFilter
     permission_classes = (IsActive,)
@@ -46,7 +46,9 @@ class NetworkObjectsViewSet(
 
         contacts = NetworkObject.objects.filter(id=pk).values_list("mail", flat=True)[0]
         send_mail_func.delay(request.user.email, contacts)
-        return HttpResponse("Sent QR Code in Email Successfully...Check your mail please")
+        return HttpResponse(
+            "Sent QR Code in Email Successfully...Check your mail please"
+        )
 
 
 class NetworkObjectsBigDebtViewSet(
@@ -58,8 +60,9 @@ class NetworkObjectsBigDebtViewSet(
     with a debt grater then an average debt.
     """
 
-    queryset = NetworkObject.objects.annotate(average_debt=Avg("debt", output_field=DecimalField())).filter(
-        debt__gt=F("average_debt"))
+    queryset = NetworkObject.objects.annotate(
+        average_debt=Avg("debt", output_field=DecimalField())
+    ).filter(debt__gt=F("average_debt"))
     serializer_class = NetworkObjectSerializer
     permission_classes = (IsActive,)
 
@@ -75,8 +78,6 @@ class ProductsViewSet(
     Main viewset for products.
     """
 
-    queryset = Product.objects.all()
+    queryset = Product.objects.filter(is_active=True)
     serializer_class = ProductsSerializer
     permission_classes = (IsActive,)
-
-

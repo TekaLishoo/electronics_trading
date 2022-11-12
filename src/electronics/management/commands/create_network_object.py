@@ -1,5 +1,11 @@
 from django.core.management.base import BaseCommand
-from src.electronics.models import NetworkObject, Country, City, PresentProducts, Product
+from src.electronics.models import (
+    NetworkObject,
+    Country,
+    City,
+    PresentProducts,
+    Product,
+)
 from src.core.choices import TYPE_OF_OBJECT
 from random import choice, randint
 from faker import Faker
@@ -22,7 +28,7 @@ class Command(BaseCommand):
             while len(name) >= 100:
                 name = Faker().word().capitalize()
             object.name = name
-            object.mail = f'{name}@mail.ru'
+            object.mail = f"{name}@mail.ru"
             country = choice(countries)
             city = list(City.objects.filter(country=country))
             object.location_country = country
